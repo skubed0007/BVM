@@ -43,7 +43,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             isfunc = true;
         } else if trimmed_line == "{" && isfunc {
             isbraces = true;
-        } else if trimmed_line == "}" && isbraces {
+        }
+        else if trimmed_line == "}" && isbraces {
             isbraces = false;
             isfunc = false;
         } else if isfunc {
@@ -82,6 +83,8 @@ trait Run {
         let cds = code.code;
         let echonlregex = Regex::new(r#"echonl\("([^"]+)"\);"#).unwrap();
 
+        let echolregex = Regex::new(r#"echol\("([^"]+)"\);"#).unwrap();
+
         for cd in cds {
             if cd.contains("echonl") {
                 if let Some(cap) = echonlregex.captures(&cd) {
@@ -95,7 +98,7 @@ trait Run {
                     println!("");
                 }
             } else if cd.contains("echol") {
-                if let Some(cap) = echonlregex.captures(&cd) {
+                if let Some(cap) = echolregex.captures(&cd) {
                     let mut x = 1;
                     while x < cap.len() {
                         let txt = cap.get(x).unwrap();
